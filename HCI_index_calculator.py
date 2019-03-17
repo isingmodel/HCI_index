@@ -72,15 +72,23 @@ def classifier(target_dict, w_value):
     score = None
     for t_range in target_dict.keys():
         if w_value >= t_range[0] and w_value < t_range[1]:
-            score = tc_dict[t_range]
+            score = target_dict[t_range]
             break
     if score == None:
         raise NotImplementedError
 
     return score
 
+def HCI_index(temperature, humidity, cloud, precipitation, wind, chill):
+    effective_t = eff_t(temperature, humidity)
+    TC = TC_score(effective_t)
+    P = P_score(precipitation, wind, chill)
+    A = A_score(cloud)
+    hci = 4*TC + 2*P + 4*A
+    return hci
 
-print(eff_t(30, 50))
+if __name__ == "__main__":
+    print(TC_score(eff_t(25, 10)))
 
 # ------------------ #
 
